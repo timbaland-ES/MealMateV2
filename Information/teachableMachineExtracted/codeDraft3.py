@@ -1,24 +1,18 @@
-
-from keras.models import load_model  # TensorFlow is required for Keras to work
-from PIL import Image, ImageOps  # Install pillow instead of PIL
+import keras
+from keras.models import load_model
+from PIL import Image, ImageOps
 import numpy as np
 
-# Disable scientific notation for clarity
-np.set_printoptions(suppress=True)
+# Model loading
+model = load_model("/keras_model.h5")
 
-# Load the model
-model = load_model("keras_Model.h5", compile=False)
+# Class import
+class_names = open("/labels.txt", "r").readlines()
 
-# Load the labels
-class_names = open("labels.txt", "r").readlines()
+# Test Image
+image = Image.open("/Screenshot 2024-06-21 172058.png").convert("RGB")
 
-# Create the array of the right shape to feed into the keras model
-# The 'length' or number of images you can put into the array is
-# determined by the first position in the shape tuple, in this case 1
 data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
-
-# Replace this with the path to your image
-image = Image.open("<IMAGE_PATH>").convert("RGB")
 
 # resizing the image to be at least 224x224 and then cropping from the center
 size = (224, 224)
